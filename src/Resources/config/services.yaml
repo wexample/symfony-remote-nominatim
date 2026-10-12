@@ -1,0 +1,12 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Wexample\SymfonyRemoteNominatim\Service\NominatimClient:
+        arguments:
+            $httpClient: '@?http_client'
+            $baseUrl: '%wexample_symfony_remote_nominatim.url%'
+            $userAgent: '%wexample_symfony_remote_nominatim.user_agent%'
+            $email: '%wexample_symfony_remote_nominatim.email%'

@@ -22,7 +22,7 @@ class NominatimClientTest extends TestCase
         ?string $city = null,
         ?string $country = null
     ): PostalAddressInterface {
-        return new class($street, $postCode, $city, $country ? (new Country())->setIsoAlpha2Code($country) : null) implements PostalAddressInterface {
+        return new class ($street, $postCode, $city, $country ? (new Country())->setIsoAlpha2Code($country) : null) implements PostalAddressInterface {
             public function __construct(
                 private readonly ?string $street,
                 private readonly ?string $postCode,
@@ -109,7 +109,7 @@ class NominatimClientTest extends TestCase
     public function testItIsTheGeocoderOfGeo(): void
     {
         $client = new NominatimClient(new MockHttpClient(new MockResponse('[{"lat":"50.85","lon":"4.35"}]')), 'http://nominatim');
-        $address = new class implements PostalAddressInterface, GeoLocatedInterface {
+        $address = new class () implements PostalAddressInterface, GeoLocatedInterface {
             public ?GeoPoint $point = null;
 
             public function getPostalAddress(): ?string

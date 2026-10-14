@@ -1,6 +1,6 @@
 # symfony-remote-nominatim
 
-Version: 1.0.2
+Version: 1.0.3
 
 ```php
 $geocodingService->locate($address);         // through NominatimClient, once installed
@@ -36,7 +36,7 @@ Visit the [Wexample Suite documentation](https://docs.wexample.com) for the comp
 - wexample/symfony-helpers: >=16.0.0
 - wexample/symfony-remote: >=2.0.0
 - symfony/http-client: >=7.0
-- wexample/symfony-geo: >=6.0.0
+- wexample/symfony-geo: >=7.0.0
 
 ## Versioning & Compatibility Policy
 

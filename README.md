@@ -1,69 +1,33 @@
 # symfony-remote-nominatim
 
-Version: 1.0.3
+Version: 1.0.4
 
-```php
-$geocodingService->locate($address);         // through NominatimClient, once installed
-$point = $nominatimClient->geocode($address); // GeoPoint, or null when no place matches
-```
-
-The address is sent as a structured query: the first street line, the post code, the city, and the country as a filter. A country alone is not searched, since it would pin the middle of the country. An address no place matches gives null; a service that refuses or cannot be reached throws `NominatimException`.
-
-The public instance answers one request a second: geocode on saving an address, never a whole table in a loop. For batches, host your own.
+Geocoder for symfony-geo backed by a Nominatim service (OpenStreetMap), self-hosted or public, declared as a symfony-remote
 
 ## Table of Contents
 
-- [Integration in the Suite](#integration-in-the-suite)
-- [Dependencies](#dependencies)
-- [Versioning & Compatibility Policy](#versioning--compatibility-policy)
-- [License](#license)
-- [About us](#about-us)
-- [Migration Notes](#migration-notes)
+- [Installation](#installation)
+- [Introduction](#introduction)
 
-## Integration in the Suite
+## Installation
 
-This package is part of the Wexample Suite — a collection of high-quality, modular tools designed to work seamlessly together across multiple languages and environments.
+```php
+// config/bundles.php
+Wexample\SymfonyRemote\WexampleSymfonyRemoteBundle::class => ['all' => true],
+Wexample\SymfonyGeo\WexampleSymfonyGeoBundle::class => ['all' => true],
+Wexample\SymfonyRemoteNominatim\WexampleSymfonyRemoteNominatimBundle::class => ['all' => true],
+```
 
-### Related Packages
+```yaml
+# config/packages/wexample_symfony_remote_nominatim.yaml
+wexample_symfony_remote_nominatim:
+  url: '%env(default::NOMINATIM_URL)%'   # e.g. http://nominatim:8080
+  user_agent: 'my-app'                  # required by the public instance
+  email: '%env(default::NOMINATIM_EMAIL)%'
+```
 
-The suite includes packages for configuration management, file handling, prompts, and more. Each package can be used independently or as part of the integrated suite.
+Without a URL the package installs no geocoder: `GeocodingService::isAvailable()` is false, and addresses keep the coordinates they were given.
 
-Visit the [Wexample Suite documentation](https://docs.wexample.com) for the complete package ecosystem.
+`symfony-remote-nominatim` is the geocoder of `symfony-geo` backed by Nominatim, OpenStreetMap's geocoder. `NominatimClient` implements geo's `GeocoderInterface`, so `GeocodingService` places addresses through it, and it is declared as a `symfony-remote`, so `remote:status` checks the service.
 
-## Dependencies
-
-- php: >=8.5
-- wexample/symfony-helpers: >=16.0.0
-- wexample/symfony-remote: >=2.0.0
-- symfony/http-client: >=7.0
-- wexample/symfony-geo: >=7.0.0
-
-## Versioning & Compatibility Policy
-
-Wexample packages follow **Semantic Versioning** (SemVer):
-
-- **MAJOR**: Breaking changes
-- **MINOR**: New features, backward compatible
-- **PATCH**: Bug fixes, backward compatible
-
-We maintain backward compatibility within major versions and provide clear migration guides for breaking changes.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-Free to use in both personal and commercial projects.
-
-## About us
-
-[Wexample](https://wexample.com) stands as a cornerstone of the digital ecosystem — a collective of seasoned engineers, researchers, and creators driven by a relentless pursuit of technological excellence. More than a media platform, it has grown into a vibrant community where innovation meets craftsmanship, and where every line of code reflects a commitment to clarity, durability, and shared intelligence.
-
-This packages suite embodies this spirit. Trusted by professionals and enthusiasts alike, it delivers a consistent, high-quality foundation for modern development — open, elegant, and battle-tested. Its reputation is built on years of collaboration, refinement, and rigorous attention to detail, making it a natural choice for those who demand both robustness and beauty in their tools.
-
-Wexample cultivates a culture of mastery. Each package, each contribution carries the mark of a community that values precision, ethics, and innovation — a community proud to shape the future of digital craftsmanship.
-
-## Migration Notes
-
-When upgrading between major versions, refer to the migration guides in the documentation.
-
-Breaking changes are clearly documented with upgrade paths and examples.
+Any Nominatim answers it: a self-hosted instance (the `mediagis/nominatim` image, fed one region's OpenStreetMap extract), or the public one at `https://nominatim.openstreetmap.org` within its usage policy: one request a second, a user agent that says who asks, no bulk geocoding.

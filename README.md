@@ -1,6 +1,6 @@
 # symfony-remote-nominatim
 
-Version: 1.0.4
+Version: 1.0.5
 
 Geocoder for symfony-geo backed by a Nominatim service (OpenStreetMap), self-hosted or public, declared as a symfony-remote
 

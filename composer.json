@@ -1,7 +1,7 @@
 {
   "name": "wexample/symfony-remote-nominatim",
   "description": "Geocoder for symfony-geo backed by a Nominatim service (OpenStreetMap), self-hosted or public, declared as a symfony-remote",
-  "version": "1.0.6",
+  "version": "2.0.0",
   "type": "library",
   "license": "MIT",
   "autoload": {
@@ -22,11 +22,11 @@
   ],
   "require": {
     "php": ">=8.5",
-    "wexample/symfony-helpers": ">=19.1.0",
-    "wexample/symfony-remote": ">=2.0.10",
+    "wexample/symfony-helpers": ">=19.3.0",
+    "wexample/symfony-remote": ">=2.2.0",
     "symfony/http-client": ">=7.0",
     "symfony/cache-contracts": "^3.0",
-    "wexample/symfony-geo": ">=8.0.2"
+    "wexample/symfony-geo": ">=9.0.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^13",
